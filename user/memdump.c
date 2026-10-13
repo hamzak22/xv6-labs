@@ -60,6 +60,84 @@ main(int argc, char *argv[])
 void
 memdump(char *fmt, char *data, int len)
 {
-  // Your code here.  `data` holds `len` valid bytes.
+  int offset = 0;
 
+  for (int i = 0; fmt[i] != '\0'; i++) {
+    char spec = fmt[i];
+
+    switch (spec) {
+    case 'i': {
+      if (len - offset < 4) {
+        printf("memdump: not enough data for '%c'\n", spec);
+        return;
+      }
+      int val = *(int *)(data + offset);
+      printf("%d\n", val);
+      offset += 4;
+      break;
+    }
+
+    case 'p': {
+      if (len - offset < 8) {
+        printf("memdump: not enough data for '%c'\n", spec);
+        return;
+      }
+      uint64 val = *(uint64 *)(data + offset);
+      printf("%p\n", (void *)val);
+      offset += 8;
+      break;
+    }
+
+    case 'h': {
+      if (len - offset < 2) {
+        printf("memdump: not enough data for '%c'\n", spec);
+        return;
+      }
+      short val = *(short *)(data + offset);
+      printf("%d\n", val);
+      offset += 2;
+      break;
+    }
+
+    case 'c': {
+      if (len - offset < 1) {
+        printf("memdump: not enough data for '%c'\n", spec);
+        return;
+      }
+      char val = *(data + offset);
+      printf("%c\n", val);
+      offset += 1;
+      break;
+    }
+
+    case 's': {
+      if (len - offset < 8) {
+        printf("memdump: not enough data for '%c'\n", spec);
+        return;
+      }
+      char *str_ptr = *(char **)(data + offset);
+      printf("%s\n", str_ptr);
+      offset += 8;
+      break;
+    }
+
+    case 'S': {
+      // Print until '\0' or end of valid buffer (len)
+      while (offset < len && data[offset] != '\0') {
+        printf("%c", data[offset]);
+        offset++;
+      }
+      printf("\n");
+      // If stopped at a null terminator, consume it
+      if (offset < len && data[offset] == '\0') {
+        offset++;
+      }
+      break;
+    }
+
+    default:
+      // Ignore or handle unknown format characters
+      break;
+    }
+  }
 }
