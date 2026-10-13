@@ -125,6 +125,7 @@ found:
   p->pid = allocpid();
   p->state = USED;
   p->sandbox_mask = 0;
+  p->sandbox_set = 0;
   p->sandbox_path[0] = 0;
 
   // Allocate a trapframe page.
@@ -290,6 +291,7 @@ kfork(void)
   np->cwd = idup(p->cwd);
 
   np->sandbox_mask = p->sandbox_mask;
+  np->sandbox_set = p->sandbox_set;
   safestrcpy(np->sandbox_path, p->sandbox_path, MAXPATH);
 
   safestrcpy(np->name, p->name, sizeof(p->name));

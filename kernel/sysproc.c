@@ -117,10 +117,14 @@ sys_interpose(void)
   int mask;
   struct proc *p = myproc();
 
+  if (p->sandbox_set)
+    return -1;
+
   argint(0, &mask);
   if (argstr(1, p->sandbox_path, MAXPATH) < 0)
     return -1;
 
   p->sandbox_mask = mask;
+  p->sandbox_set = 1;
   return 0;
 }
