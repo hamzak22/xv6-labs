@@ -1,0 +1,7 @@
+
+- usertrap () at kernel/trap.c
+- Value is 15. Represents SYS_open
+- sstatus = 0x200000022 (bit 8 is 0 so user mode)
+- scause=0xd sepc=0x80001d80 stval=0x0, faulting instruction was lw      a3,0(zero) # 0 <_entry-0x80000000>, register a3
+- address 0 isn't mapped to kernel causing load page fault as faulting instruction lw but page wasn't mapped.
+- pname init, pid 1

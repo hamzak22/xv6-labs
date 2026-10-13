@@ -203,6 +203,14 @@ UPROGS=\
 	$U/_forphan\
 	$U/_dorphan\
 	$U/_sync\
+	$U/_sleep\
+	$U/_sixfive\
+	$U/_memdump\
+	$U/_find\
+	$U/_sandbox\
+	$U/_sbtest\
+	$U/_attack\
+	$U/_secret
 
 
 
